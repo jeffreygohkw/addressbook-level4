@@ -1757,20 +1757,20 @@ for <code>RemarkCommandParser</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">have access to a Open button</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">load contact details from any data file I choose instead of following the default save location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">load contact data from any file of my choosing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">have more flexibility for my file&#8217;s storage location</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">have an auto-fill feature when typing in my tags</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">not have to remember all the tags that I ever wrote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">save contact data in a directory of my choosing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">save the file in a location that fits my needs</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">have access to a Save As option</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">customize my save location instead of using the default one</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type commands partially and have the application fill in the rest for me</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">increase typing productivity</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
@@ -1921,8 +1921,232 @@ for <code>RemarkCommandParser</code>.</p>
 </li>
 </ul>
 </div>
+<h3 id="use-case-search-for-person" class="discrete">Use case: Search for person</h3>
 <div class="paragraph">
-<p>{More to be added}</p>
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to search for a person with criteria</p>
+</li>
+<li>
+<p>AddressBook shows a list of persons who match the criteria</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>2b. No such person was found.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2b1. AddressBook informs the user that no matching users were found.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-edit-person" class="discrete">Use case: Edit person</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list persons</p>
+</li>
+<li>
+<p>AddressBook shows a list of persons</p>
+</li>
+<li>
+<p>User requests to change the details of a specific person in the list</p>
+</li>
+<li>
+<p>AddressBook changes the details of the specified person.</p>
+</li>
+<li>
+<p>AddressBook shows the new details of the person.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3a1. AddressBook shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. The specified detail to change is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3b1. AddressBook shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>4a. The specified detail to change is exactly the same as the previous detail.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>4a1. AddressBook informs the user that no change was made.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-undo-redo-by-multiple-steps" class="discrete">Use case: Undo/Redo by multiple steps</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to undo/redo a specified number of steps</p>
+</li>
+<li>
+<p>AddressBook undos/redos the last X commands, where X was the number of commands to undo/redo</p>
+</li>
+<li>
+<p>AddressBook displays a success message</p>
+</li>
+<li>
+<p>AddressBook displays a list of all the commands that were undone/redone.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The number of commands entered were less than the specified number of undo commands.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a1. AddressBook undos all previous commands.</p>
+<div class="paragraph">
+<p>Use case resumes at step 3.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2b. The number of commands entered were less than the specified number of redo commands.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2b1. AddressBook redos all previously undone commands.</p>
+<div class="paragraph">
+<p>Use case resumes at step 3</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-sort" class="discrete">Use case: Sort</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to sort by a criteria</p>
+</li>
+<li>
+<p>AddressBook sorts the contacts by the criteria</p>
+</li>
+<li>
+<p>AddressBook shows a success message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>1a. The given criteria is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a1. AddressBook shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 1.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1944,22 +2168,13 @@ for <code>RemarkCommandParser</code>.</p>
 <p>Feature sets are to be rolled out on a regular weekly basis, following the proper forking workflow procedure.</p>
 </li>
 <li>
-<p>The application should be intuitive for all users, regardless of technical ability.</p>
+<p>The application should be intuitive the target users: students (and professionals) who prefer typing over using the mouse.</p>
 </li>
 <li>
-<p>The application&#8217;s graphic user interface should display properly on monitors of all resolutions.</p>
+<p>Future versions of the application should be backwards compatible with data saved in versions after v1.0.</p>
 </li>
 <li>
-<p>New features will have relevant tests created to root out possible bugs.</p>
-</li>
-<li>
-<p>New features and changes are to be documented in the user and developer guides.</p>
-</li>
-<li>
-<p>Saved data is to be backwards compatible from v1.0 onwards.</p>
-</li>
-<li>
-<p>The application is not required to handle physical printing</p>
+<p>The application is not required to handle physical printing.</p>
 </li>
 </ol>
 </div>
@@ -1974,46 +2189,6 @@ for <code>RemarkCommandParser</code>.</p>
 <div class="literalblock">
 <div class="content">
 <pre>Windows, Linux, Unix, OS-X</pre>
-</div>
-</div>
-<div id="private-contact-detail" class="paragraph">
-<p>Private contact detail</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>A contact detail that is not meant to be shared with others</pre>
-</div>
-</div>
-<div id="feature-set" class="paragraph">
-<p>Feature Set</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>A feature set is a set of enhancements rolled out at each set interval</pre>
-</div>
-</div>
-<div id="graphic-user-interface" class="paragraph">
-<p>Graphic User Interface</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>The Graphic User Interface (GUI) consists of the organised visual elements that users can see and interact with.</pre>
-</div>
-</div>
-<div id="bugs" class="paragraph">
-<p>Bugs</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Bugs refer to errors and flaws in the implementation of features. It causes the application to behave unexpectedly or give incorrect outputs/outcomes.</pre>
-</div>
-</div>
-<div id="enhancements" class="paragraph">
-<p>Enhancements</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>An enhancement refers to an addition of a feature to the application with the intention of improving user experience. It is rolled out as part of a feature set.</pre>
 </div>
 </div>
 <div id="backwards-compatible" class="paragraph">
@@ -2066,7 +2241,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-03 15:13:46 +00:00
+Last updated 2017-10-08 05:30:07 +00:00
 </div>
 </div>
 </body>
