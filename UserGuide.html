@@ -175,6 +175,7 @@ Shorthand commands: <code>a</code> <code>at</code></p>
 </td>
 <td class="content">
 A person can have any number of tags (including 0)<br>
+A person&#8217;s <code>Name</code>, <code>Phone</code>, <code>Email</code> or <code>Address</code> can be set to be private by placing a <code>p</code> in front of the prefix.<br>
 A task can have the following 5 priorities: <code>lowest, low, normal, high, highest</code><br>
 Newly added tasks are marked as incomplete by default.
 </td>
@@ -197,6 +198,9 @@ Newly added tasks are marked as incomplete by default.
 </li>
 <li>
 <p><code>add n/Luke Groundswimmer p/ a/ e/ c/</code></p>
+</li>
+<li>
+<p><code>add pn/Neville Shorttop pp/46492787 pe/nevilleS@gmail.com pa/Gryphon Gate c/</code></p>
 </li>
 <li>
 <p><code>addtask n/Update documentationn d/Update docs for V1.1 for CS2103T t/10-10-17 p/high</code></p>
@@ -279,6 +283,9 @@ Shorthand commands: <code>e</code> <code>et</code></p>
 </li>
 <li>
 <p>You can remove all the person&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+<li>
+<p>A private field will not be modified by the Edit command.</p>
 </li>
 </ul>
 </div>
@@ -1191,7 +1198,7 @@ e.g. <code>dismiss 4 1 17</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-19 08:36:25 +00:00
+Last updated 2017-10-19 15:48:46 +00:00
 </div>
 </div>
 </body>

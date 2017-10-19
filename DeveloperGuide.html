@@ -45,9 +45,11 @@
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#undo-redo-mechanism">3.1. Undo/Redo mechanism</a></li>
-<li><a href="#sort-enhancement">3.2. Sort enhancement</a></li>
-<li><a href="#logging">3.3. Logging</a></li>
-<li><a href="#configuration">3.4. Configuration</a></li>
+<li><a href="#task-object">3.2. Task Object</a></li>
+<li><a href="#sort-enhancement">3.3. Sort enhancement</a></li>
+<li><a href="#privacy-of-fields">3.4. Privacy of fields</a></li>
+<li><a href="#logging">3.5. Logging</a></li>
+<li><a href="#configuration">3.6. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -768,7 +770,105 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="sort-enhancement"><a class="link" href="#sort-enhancement">3.2. Sort enhancement</a></h3>
+<h3 id="task-object"><a class="link" href="#task-object">3.2. Task Object</a></h3>
+<div class="paragraph">
+<p>The Task object stores information related to a single deadline or task, in a manner similar to how Person information is stored.<br>
+As such, it also shares the same types of commands as the Person object, namely the add, delete, list, select, and edit commands.
+Instead of making a new Logic object for each new command, polymorphism is used to implement the "Task" version of each command.</p>
+</div>
+<div class="paragraph">
+<p>An example of using polymorphism to handle Person vs Task addition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">AddCommand</span> <span class="directive">extends</span> Command {
+    <span class="directive">public</span> AddCommand(ReadOnlyPerson person) {
+        toAdd = <span class="keyword">new</span> Person(person);
+        toHandle = HANDLE_TYPE_PERSON;
+    }
+
+    <span class="directive">public</span> AddCommand(ReadOnlyTask task) {
+        toAdd = <span class="keyword">new</span> Task(task);
+        toHandle = HANDLE_TYPE_TASK;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The AddCommand will thus call a different constructor depending on the type of the argument supplied to it. To facilitate this, the respective Parser class must also be modified:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> AddCommand parse(<span class="predefined-type">String</span> args) <span class="directive">throws</span> <span class="exception">ParseException</span> {
+    <span class="type">int</span> objectType = checkType(args);
+
+    <span class="keyword">if</span> (objectType == HANDLE_TYPE_PERSON) {
+        Person toAdd = createNewPerson(args);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (objectType == HANDLE_TYPE_TASK) {
+        Task toAdd = createNewTask(args);
+    }
+    <span class="keyword">return</span> <span class="keyword">new</span> AddCommand(toAdd);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The AddCommandParser checks the args to see if this is a task, then creates the object to be added, and creates a new AddCommand to handle the result.<br>
+The sequence diagram below shows how this is done:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AddTaskSeq.png" alt="AddTaskSeq" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>To support the addition of Task objects, the Storage component is modified to accept Task objects in a similar manner as to how Person objects are being stored.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">---
+    <span class="tag">&lt;persons&gt;</span>
+        <span class="tag">&lt;name&gt;</span>someone else<span class="tag">&lt;/name&gt;</span>
+        <span class="tag">&lt;phone&gt;</span><span class="tag">&lt;/phone&gt;</span>
+        <span class="tag">&lt;email&gt;</span><span class="tag">&lt;/email&gt;</span>
+        <span class="tag">&lt;address&gt;</span><span class="tag">&lt;/address&gt;</span>
+    <span class="tag">&lt;/persons&gt;</span>
+    <span class="tag">&lt;tasks&gt;</span>
+        <span class="tag">&lt;name&gt;</span>Buy new pencil<span class="tag">&lt;/name&gt;</span>
+        <span class="tag">&lt;description&gt;</span>Buy new pencil for writing purposes<span class="tag">&lt;/description&gt;</span>
+        <span class="tag">&lt;deadline&gt;</span><span class="tag">&lt;/deadline&gt;</span>
+        <span class="tag">&lt;priority&gt;</span>2<span class="tag">&lt;/priority&gt;</span>
+    <span class="tag">&lt;/tasks&gt;</span>
+---</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tasks objects are stored in the same level of hierarchy as Person objects, and during startup, are read and entered into the UniqueTaskList, which handles all the tasks that are present in the address book.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of Task-related commands<br>
+<strong>Alternative 1 (current choice):</strong> Use polymorphism to allow existing commands to implement the new commands<br>
+<strong>Pros:</strong> Under this scheme, any command can be extended to allow addition of new commands of any type, without affecting the architecture significantly<br>
+<strong>Cons:</strong> SRP may be violated as each Command class may now need to handle 2 different types of objects.<br>
+<strong>Alternative 2:</strong> Create new classes for all new commands<br>
+<strong>Pros:</strong> Simpler to implement.<br>
+<strong>Cons:</strong> Code duplication occurs as the commands for Person and Tasks objects share the same structure.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Storage of Task objects<br>
+<strong>Alternative 1 (current choice):</strong> Store Tasks objects in a separate XML file<br>
+<strong>Pros:</strong> Easier to manage as Person storage will not interfere with Task storage, and vice versa.
+<strong>Cons:</strong> All existing save/load functions will require an additional method to handle Task storage.
+<strong>Alternative 2:</strong> Store Task objects together in the default XML storage file<br>
+<strong>Pros</strong> Only 1 storage file is needed. The storage manager thus only needs to refer to one storage<br>
+<strong>Cons</strong> Any changes to the Person or Task will affect the storage of both the Person and Task objects. This will increase coupling between the Person and Task classes.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sort-enhancement"><a class="link" href="#sort-enhancement">3.3. Sort enhancement</a></h3>
 <div class="paragraph">
 <p>The sort enhancment is facilitated by the <code>sortBy</code> method in UniquePersonList. It supports
 sort by ascending or by descending order in any field.</p>
@@ -801,7 +901,7 @@ demonstrates how the sort command works.</p>
 <p>Note that the execution of the sort methods result in the actual person list being sorted.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of <code>sort Command</code><br>
 <strong>Alternative 1 (current choice):</strong> Implement sorting functionality in <code>UniquePersonList</code> class.<br>
@@ -824,7 +924,106 @@ demonstrates how the sort command works.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
+<h3 id="privacy-of-fields"><a class="link" href="#privacy-of-fields">3.4. Privacy of fields</a></h3>
+<div class="paragraph">
+<p>The <code>Name</code>, <code>Phone</code>, <code>Email</code> and <code>Address</code> of a <code>Person</code> contains a boolean <code>isPrivate</code>, which will determine if the field belonging to that person is private or not.</p>
+</div>
+<div class="paragraph">
+<p>Adding a person with private fields uses the same <code>AddCommand</code> as adding a person with no public fields.<br>
+To determine if the field that is added should be set to private, a <code>p</code> is added to the start of the prefix.<br>
+Hence, <code>pe/[EMAIL]</code> will set that person&#8217;s email to be private, whereas if <code>e/[EMAIL]</code> was used, that person&#8217;s email would be public.<br></p>
+</div>
+<div class="paragraph">
+<p>The <code>isPrivate</code> boolean is private, however, the value can be obtained using the following getter method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> isPrivate() {
+    <span class="keyword">return</span> isPrivate;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To change the <code>isPrivate</code> value, the following setter method is used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> setPrivate(<span class="type">boolean</span> isPrivate) {
+    <span class="local-variable">this</span>.isPrivate = isPrivate;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a field is private, then the <code>toString</code> method will return a string <code>&lt;Private [FIELD]&gt;</code>, where <code>[FIELD]</code> is the name of that field.<br>
+This can be seen from the <code>toString</code> method in <code>Name</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+<span class="directive">public</span> <span class="predefined-type">String</span> toString() {
+    <span class="keyword">if</span> (isPrivate) {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;Private Name&gt;</span><span class="delimiter">&quot;</span></span>;
+    }
+    <span class="keyword">return</span> fullName;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since the information displayed in a person&#8217;s card in the UI gets the value of the field through the <code>toString()</code> method, this hides the actual value of the field in the UI.</p>
+</div>
+<div class="paragraph">
+<p>In addition, if <code>isPrivate</code> is <code>true</code> for <code>Name</code>, clicking on a person&#8217;s card in the UI will not trigger a search on Google for that person&#8217;s name.</p>
+</div>
+<div class="paragraph">
+<p>Instead, a message <code>"Cannot perform a search on that person. Their name is private."</code> will be printed in the UI to inform the user that they are not allowed to search for a person possessing a private <code>Name</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>ChangePrivacyCommand</code> facilitates the setting of an existing person&#8217;s field&#8217;s privacy. Depending on the user&#8217;s input, <code>ChangePrivacyCommand</code> will use each field&#8217;s <code>setPrivate()</code> method to set the value of <code>isPrivate</code>.</p>
+</div>
+<div class="paragraph">
+<p>To keep track of whether each field is private or not, <code>XmlAdaptedPerson</code> will have to store the <code>isPrivate</code> value for each field of <code>Person</code>.</p>
+</div>
+<div class="paragraph">
+<p>If an old save file without privacy data is loaded, then the <code>toModelType()</code> method in <code>XmlAdaptedPerson</code> will set <code>isPrivate</code> to be <code>false</code> for each field of <code>Person</code>, to keep the displayed information the same.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If a private field is to be edited by <code>EditCommand</code>, <code>EditCommand</code> will not modify the data of that field, even though the command succeeds.<br>
+Hence, a private field will remain private and the value stored by that field will remain the same as it originally was.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of <code>isPrivate</code><br>
+<strong>Alternative 1 (current choice):</strong> Add a boolean to each field class<br>
+<strong>Pros:</strong> Similar implementation to how the fields are currently being implemented. Privacy settings can be obtained directly from the field class itself.<br>
+<strong>Cons:</strong> Repetitive code. Additional overloaded constructor and methods are needed to set and get the value of <code>isPrivate</code>. <br>
+<strong>Alternative 2:</strong> Store a person&#8217;s privacy settings outside of the field classes in an Array or a HashMap in <code>Person</code>.<br>
+<strong>Pros:</strong> Can access and modify the privacy settings of all fields easily.<br>
+<strong>Cons:</strong> The fields themselves do not have any indication of whether or not they are private, and will have to check with the <code>Person</code> the belong to.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> How to determine if a field for a newly added person should be private.<br>
+<strong>Alternative 1 (current choice):</strong> Add a <code>p</code> to the start of each field&#8217;s prefix to signify that that field should be private.<br>
+<strong>Pros:</strong> Can add <code>Person</code> containing any combination of private and public fields in 1 command line.<br>
+<strong>Cons:</strong> Have to modify <code>AddCommand</code>, <code>AddCommandParser</code>, <code>ParserUtil</code> and other classes to detect the new prefix and call a separate constructor when a field is private.<br>
+<strong>Alternative 2:</strong> A <code>Person</code> is added with all field public, a separate command will then have to be used to set the desired fields to be private.<br>
+<strong>Pros:</strong> Easier implementation, do not have to modify <code>AddCommand</code>.<br>
+<strong>Cons:</strong> Requires 2 command lines to create a <code>Person</code> with private fields, which takes more time and is more inconvenient for users.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -862,7 +1061,7 @@ demonstrates how the sort command works.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.4. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.6. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2298,7 +2497,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-19 08:36:25 +00:00
+Last updated 2017-10-19 15:48:46 +00:00
 </div>
 </div>
 </body>
