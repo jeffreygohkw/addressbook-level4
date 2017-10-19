@@ -45,8 +45,9 @@
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#undo-redo-mechanism">3.1. Undo/Redo mechanism</a></li>
-<li><a href="#logging">3.2. Logging</a></li>
-<li><a href="#configuration">3.3. Configuration</a></li>
+<li><a href="#sort-enhancement">3.2. Sort enhancement</a></li>
+<li><a href="#logging">3.3. Logging</a></li>
+<li><a href="#configuration">3.4. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -767,7 +768,63 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.2. Logging</a></h3>
+<h3 id="sort-enhancement"><a class="link" href="#sort-enhancement">3.2. Sort enhancement</a></h3>
+<div class="paragraph">
+<p>The sort enhancment is facilitated by the <code>sortBy</code> method in UniquePersonList. It supports
+sort by ascending or by descending order in any field.</p>
+</div>
+<div class="paragraph">
+<p>The sort enhancement utilises the Java Collections Sort API by passing it a custom Comparator.</p>
+</div>
+<div class="paragraph">
+<p>The sort command is parsed through <code>SortCommandParser</code>, which passes control over to the <code>SortCommand</code>
+class. The actual sorting happens via the UniquePersonList class.</p>
+</div>
+<div class="paragraph">
+<p>The Logic Diagram for this sort command implementation is shown below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortCommandDiagram.png" alt="SortCommandDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Suppose a user enters a new command <code>sort name desc</code>. The following sequence diagram
+demonstrates how the sort command works.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SortSequenceDiagram.png" alt="SortSequenceDiagram" width=""800">
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the execution of the sort methods result in the actual person list being sorted.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of <code>sort Command</code><br>
+<strong>Alternative 1 (current choice):</strong> Implement sorting functionality in <code>UniquePersonList</code> class.<br>
+<strong>Pros:</strong> Delegates the concern of sorting to the class that is responsible for the core of most operations done to the person lists. Future changes to the implementation will be easier as a consequence.<br>
+<strong>Cons:</strong> Hard for new developers to understand the flow of control passed between classes at first.<br>
+<strong>Alternative 2:</strong> Implement the sorting functionality within other classes like <code>AddressBook</code> or <code>SortCommand</code>.<br>
+<strong>Pros:</strong> May be more intuitive for new developers and it is easier to trace function calls between lesser classes involved.<br>
+<strong>Cons:</strong> Violates Separation of Concern principle and causes unnecessary content coupling whereby the <code>UniquePersonList</code> will have to rely on the <code>SortCommand</code> class.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Temporary Sort Implementation vs. Persistent Sort Implementation<br>
+<strong>Alternative 1 (current choice):</strong> Saves the entire address book after sorting.<br>
+<strong>Pros:</strong> More intuitive for both user and developer and reduced complexity in implementation.<br>
+<strong>Cons:</strong> Old order of contact instances in the address book will be lost<br>
+<strong>Alternative 2:</strong> Duplicate a temporary version of the list and sort it for viewing (i.e. the actual list is not sorted)<br>
+<strong>Pros:</strong> Old order of contact instances remains intact.<br>
+<strong>Cons:</strong> Will use more memory and may be less intuitive for developer to understand and in terms of user experience. Also, sorting will not persist in the system.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -805,7 +862,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.3. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.4. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2241,7 +2298,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-12 16:12:13 +00:00
+Last updated 2017-10-19 08:36:25 +00:00
 </div>
 </div>
 </body>
