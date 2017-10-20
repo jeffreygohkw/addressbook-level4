@@ -215,7 +215,7 @@ Newly added tasks are marked as incomplete by default.
 <h3 id="add-a-tag-to-persons-code-addtag-code"><a class="link" href="#add-a-tag-to-persons-code-addtag-code">2.3. Add a tag to persons : <code>addtag</code></a></h3>
 <div class="paragraph">
 <p>Adds a tag to persons from the address book.<br>
-Format: <code>addtag [TAG] INDEX</code><br>
+Format: <code>addtag INDEX t/[TAG]</code><br>
 Shorthand commands: <code>atag</code></p>
 </div>
 <div class="sidebarblock">
@@ -242,8 +242,8 @@ Shorthand commands: <code>atag</code></p>
 <ul>
 <li>
 <p><code>list</code><br>
-<code>addtag friends 1</code><br>
-Adds the freinds tag of the 1st person in the address book.</p>
+<code>addtag 1 2 t/friends</code><br>
+Adds the freinds tag of the 1st and 2nd person in the address book.</p>
 </li>
 </ul>
 </div>
@@ -482,7 +482,7 @@ Deletes the 1st task in the results of the <code>findtask</code> command.</p>
 <h3 id="delete-a-tag-of-persons-code-deletetag-code"><a class="link" href="#delete-a-tag-of-persons-code-deletetag-code">2.9. delete a tag of persons : <code>deletetag</code></a></h3>
 <div class="paragraph">
 <p>Delete the tag of persons from the address book.<br>
-Format: <code>deletetag [TAG] INDEX</code><br>
+Format: <code>deletetag INDEX t/[TAG]</code><br>
 Shorthand commands: <code>dtag</code></p>
 </div>
 <div class="sidebarblock">
@@ -509,8 +509,8 @@ Shorthand commands: <code>dtag</code></p>
 <ul>
 <li>
 <p><code>list</code><br>
-<code>deletetag friends 1</code><br>
-Delete the freinds tag of the 1st person in the address book.</p>
+<code>deletetag 1 2 t/friends</code><br>
+Delete the freinds tag of the 1st and 2nd person in the address book.</p>
 </li>
 </ul>
 </div>
@@ -1091,8 +1091,8 @@ e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1
 e.g. <code>addtask n/Update Documentation d/Update documentations for V1.1 for CS2103T t/30/10/17 p/high</code></p>
 </li>
 <li>
-<p><strong>Add tag</strong> : <code>addtag [TAG] INDEX</code><br>
-e.g. <code>addtag friends 2</code></p>
+<p><strong>Add tag</strong> : <code>addtag INDEX t/[TAG]</code><br>
+e.g. <code>addtag 1 2 t/friends</code></p>
 </li>
 <li>
 <p><strong>Clear person</strong> : <code>clear</code></p>
@@ -1109,8 +1109,8 @@ e.g. <code>delete 3</code></p>
 e.g. <code>deletetask 4</code></p>
 </li>
 <li>
-<p><strong>Delete tag</strong> : <code>deletetag [TAG] INDEX</code><br>
-e.g. <code>deletetag friends 1</code></p>
+<p><strong>Delete tag</strong> : <code>deletetag INDEX t/[TAG]</code><br>
+e.g. <code>deletetag 1 2 t/friends</code></p>
 </li>
 <li>
 <p><strong>Edit</strong> : <code>edit or e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] c/[GOOGLE CALENDAR URL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code><br>
@@ -1198,7 +1198,7 @@ e.g. <code>dismiss 4 1 17</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-19 15:54:13 +00:00
+Last updated 2017-10-20 16:01:10 +00:00
 </div>
 </div>
 </body>
