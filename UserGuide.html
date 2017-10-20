@@ -28,16 +28,16 @@
 <li><a href="#features">2. Features</a>
 <ul class="sectlevel2">
 <li><a href="#viewing-help-code-help-code">2.1. Viewing help : <code>help</code></a></li>
-<li><a href="#adding-a-person-task-code-add-code-code-addtask-code">2.2. Adding a person/task: <code>add</code> <code>addtask</code></a></li>
+<li><a href="#adding-a-person-task-code-add-code">2.2. Adding a person/task: <code>add</code></a></li>
 <li><a href="#add-a-tag-to-persons-code-addtag-code">2.3. Add a tag to persons : <code>addtag</code></a></li>
-<li><a href="#listing-all-persons-code-list-code-code-listtask-code">2.4. Listing all persons : <code>list</code> <code>listtask</code></a></li>
-<li><a href="#editing-a-person-code-edit-code-code-edittask-code">2.5. Editing a person : <code>edit</code> <code>edittask</code></a></li>
+<li><a href="#listing-all-persons-code-list-code">2.4. Listing all persons : <code>list</code></a></li>
+<li><a href="#editing-a-person-code-edit-code">2.5. Editing a person : <code>edit</code></a></li>
 <li><a href="#changing-the-privacy-of-a-person-s-details-code-changeprivacy-code-code-cp-code-to-be-added-in-v2-0">2.6. Changing the Privacy of a person&#8217;s details : <code>changeprivacy</code> <code>cp</code> (To be added in V2.0)</a></li>
-<li><a href="#locating-persons-by-name-code-find-code-code-findtask-code">2.7. Locating persons by name : <code>find</code> <code>findtask</code></a></li>
-<li><a href="#deleting-a-person-code-delete-code-code-deletetask-code">2.8. Deleting a person : <code>delete</code> <code>deletetask</code></a></li>
+<li><a href="#locating-persons-by-name-code-find-code">2.7. Locating persons by name : <code>find</code></a></li>
+<li><a href="#deleting-a-person-code-delete-code">2.8. Deleting a person : <code>delete</code></a></li>
 <li><a href="#delete-a-tag-of-persons-code-deletetag-code">2.9. delete a tag of persons : <code>deletetag</code></a></li>
 <li><a href="#sorting-all-persons-code-sort-code">2.10. Sorting all persons : <code>sort</code></a></li>
-<li><a href="#selecting-a-person-code-select-code-code-selecttask-code">2.11. Selecting a person : <code>select</code> <code>selecttask</code></a></li>
+<li><a href="#selecting-a-person-code-select-code">2.11. Selecting a person : <code>select</code></a></li>
 <li><a href="#mark-task-as-complete-code-setcomplete-code-to-be-coming-in-v2-0">2.12. Mark task as complete : <code>setcomplete</code> (To be coming in V2.0)</a></li>
 <li><a href="#mark-task-as-incomplete-code-setincomplete-code-to-be-coming-in-v2-0">2.13. Mark task as incomplete : <code>setincomplete</code> (To be coming in V2.0)</a></li>
 <li><a href="#assign-contacts-to-task-code-assign-code-to-be-coming-in-v2-0">2.14. Assign contacts to task : <code>assign</code> (To be coming in V2.0)</a></li>
@@ -160,11 +160,11 @@ Alternatively, the keyboard shortcut <code>F1</code> may be used.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-person-task-code-add-code-code-addtask-code"><a class="link" href="#adding-a-person-task-code-add-code-code-addtask-code">2.2. Adding a person/task: <code>add</code> <code>addtask</code></a></h3>
+<h3 id="adding-a-person-task-code-add-code"><a class="link" href="#adding-a-person-task-code-add-code">2.2. Adding a person/task: <code>add</code></a></h3>
 <div class="paragraph">
 <p>Adds a person or task to the address book<br>
 Format (person): <code>add n/NAME p/[PHONE_NUMBER] e/[EMAIL] a/[ADDRESS] b/[BIRTHDAY] f/[FACULTY] c/[GOOGLE CALENDAR URL] [t/TAG]&#8230;&#8203;</code><br>
-Format (task): <code>addtask n/NAME [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
+Format (task): <code>add task n/NAME [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
 Shorthand commands: <code>a</code> <code>at</code></p>
 </div>
 <div class="admonitionblock tip">
@@ -176,7 +176,7 @@ Shorthand commands: <code>a</code> <code>at</code></p>
 <td class="content">
 A person can have any number of tags (including 0)<br>
 A person&#8217;s <code>Name</code>, <code>Phone</code>, <code>Email</code> or <code>Address</code> can be set to be private by placing a <code>p</code> in front of the prefix.<br>
-A task can have the following 5 priorities: <code>lowest, low, normal, high, highest</code><br>
+A task priority must be a positive integer from 1 to 5 inclusive, with 5 being the highest priority<br>
 Newly added tasks are marked as incomplete by default.
 </td>
 </tr>
@@ -203,10 +203,10 @@ Newly added tasks are marked as incomplete by default.
 <p><code>add pn/Neville Shorttop pp/46492787 pe/nevilleS@gmail.com pa/Gryphon Gate c/</code></p>
 </li>
 <li>
-<p><code>addtask n/Update documentationn d/Update docs for V1.1 for CS2103T t/10-10-17 p/high</code></p>
+<p><code>add task n/Update documentationn d/Update docs for V1.1 for CS2103T t/10-10-17 p/4</code></p>
 </li>
 <li>
-<p><code>addtask n/Buy new pencil p/low</code></p>
+<p><code>add task n/Buy new pencil p/2</code></p>
 </li>
 </ul>
 </div>
@@ -215,7 +215,7 @@ Newly added tasks are marked as incomplete by default.
 <h3 id="add-a-tag-to-persons-code-addtag-code"><a class="link" href="#add-a-tag-to-persons-code-addtag-code">2.3. Add a tag to persons : <code>addtag</code></a></h3>
 <div class="paragraph">
 <p>Adds a tag to persons from the address book.<br>
-Format: <code>addtag INDEX t/[TAG]</code><br>
+Format: <code>addtag INDEX&#8230;&#8203; t/[TAG]</code><br>
 Shorthand commands: <code>atag</code></p>
 </div>
 <div class="sidebarblock">
@@ -231,6 +231,9 @@ Shorthand commands: <code>atag</code></p>
 <li>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
 </li>
+<li>
+<p>If no indexes are provided, addtag will add the tag to all contacts in the address book.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -243,26 +246,31 @@ Shorthand commands: <code>atag</code></p>
 <li>
 <p><code>list</code><br>
 <code>addtag 1 2 t/friends</code><br>
-Adds the freinds tag of the 1st and 2nd person in the address book.</p>
+Adds the friends tag of the 1st and 2nd person in the address book.</p>
+</li>
+<li>
+<p><code>list</code><br>
+<code>addtag t/acquaintance</code><br>
+Adds the acquaintance tag to all contacts in the address book.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-all-persons-code-list-code-code-listtask-code"><a class="link" href="#listing-all-persons-code-list-code-code-listtask-code">2.4. Listing all persons : <code>list</code> <code>listtask</code></a></h3>
+<h3 id="listing-all-persons-code-list-code"><a class="link" href="#listing-all-persons-code-list-code">2.4. Listing all persons : <code>list</code></a></h3>
 <div class="paragraph">
 <p>Shows a list of all persons or tasks in the address book.<br>
 Format (person): <code>list</code><br>
-Format (task): <code>listtask</code><br>
+Format (task): <code>list task</code><br>
 Shorthand commands: <code>l</code> <code>lt</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-a-person-code-edit-code-code-edittask-code"><a class="link" href="#editing-a-person-code-edit-code-code-edittask-code">2.5. Editing a person : <code>edit</code> <code>edittask</code></a></h3>
+<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">2.5. Editing a person : <code>edit</code></a></h3>
 <div class="paragraph">
 <p>Edits an existing person in the address book.<br>
 Format (person): <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [b/BIRTHDAY] c/[GOOGLE CALENDAR URL] [t/TAG]&#8230;&#8203;</code><br>
-Format (task): <code>edittask INDEX [n/NAME] [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
+Format (task): <code>edit task INDEX [n/NAME] [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
 Shorthand commands: <code>e</code> <code>et</code></p>
 </div>
 <div class="sidebarblock">
@@ -309,8 +317,8 @@ Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears all 
 Removes the phone number of the 1st person.</p>
 </li>
 <li>
-<p><code>edittask 2 p/highest</code><br>
-Edits the priority of the 2nd task to be <code>highest</code>.</p>
+<p><code>edit task 2 p/5</code><br>
+Edits the priority of the 2nd task to be <code>5</code>.</p>
 </li>
 </ul>
 </div>
@@ -365,11 +373,11 @@ Sets the address and tags of the 2nd person to be public and their birthday to b
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-by-name-code-find-code-code-findtask-code"><a class="link" href="#locating-persons-by-name-code-find-code-code-findtask-code">2.7. Locating persons by name : <code>find</code> <code>findtask</code></a></h3>
+<h3 id="locating-persons-by-name-code-find-code"><a class="link" href="#locating-persons-by-name-code-find-code">2.7. Locating persons by name : <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds persons/tasks whose names or description contain any of the given keywords.<br>
 Format (person): <code>find KEYWORD [MORE_KEYWORDS]</code><br>
-Format (task): <code>findtask KEYWORD [MORE_KEYWORDS] [p/PRIORITY]<br>
+Format (task): <code>find task KEYWORD [MORE_KEYWORDS] [p/PRIORITY]<br>
 Shorthand commands: `f</code> <code>ft</code></p>
 </div>
 <div class="sidebarblock">
@@ -415,22 +423,22 @@ Returns <code>john</code> and <code>John Doe</code></p>
 Returns any person having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
 </li>
 <li>
-<p><code>findtask update</code><br>
+<p><code>find task update</code><br>
 Returns any task that has the word <code>update</code> in their names or descriptions</p>
 </li>
 <li>
-<p><code>findtask update high</code><br>
+<p><code>find task update high</code><br>
 Returns all tasks that has the word <code>update</code> in their names or descriptions, and are of priority <code>high</code> or higher.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person-code-delete-code-code-deletetask-code"><a class="link" href="#deleting-a-person-code-delete-code-code-deletetask-code">2.8. Deleting a person : <code>delete</code> <code>deletetask</code></a></h3>
+<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">2.8. Deleting a person : <code>delete</code></a></h3>
 <div class="paragraph">
 <p>Deletes the specified person or task from the address book.<br>
 Format (person): <code>delete INDEX</code><br>
-Format (task): <code>deletetask INDEX</code>+
+Format (task): <code>delete task INDEX</code>+
 Shorthand commands: <code>d</code> <code>dt</code></p>
 </div>
 <div class="sidebarblock">
@@ -466,14 +474,14 @@ Deletes the 2nd person in the address book.</p>
 Deletes the 1st person in the results of the <code>find</code> command.</p>
 </li>
 <li>
-<p><code>listtask</code><br>
-<code>deletetask 2</code><br>
+<p><code>list task</code><br>
+<code>delete task 2</code><br>
 Deletes the 2nd task in the address book.</p>
 </li>
 <li>
-<p><code>findtask update</code><br>
-<code>deletetask 1</code><br>
-Deletes the 1st task in the results of the <code>findtask</code> command.</p>
+<p><code>find task update</code><br>
+<code>delete task 1</code><br>
+Deletes the 1st task in the results of the <code>find task</code> command.</p>
 </li>
 </ul>
 </div>
@@ -482,7 +490,7 @@ Deletes the 1st task in the results of the <code>findtask</code> command.</p>
 <h3 id="delete-a-tag-of-persons-code-deletetag-code"><a class="link" href="#delete-a-tag-of-persons-code-deletetag-code">2.9. delete a tag of persons : <code>deletetag</code></a></h3>
 <div class="paragraph">
 <p>Delete the tag of persons from the address book.<br>
-Format: <code>deletetag INDEX t/[TAG]</code><br>
+Format: <code>deletetag INDEX&#8230;&#8203; t/[TAG]</code><br>
 Shorthand commands: <code>dtag</code></p>
 </div>
 <div class="sidebarblock">
@@ -498,6 +506,9 @@ Shorthand commands: <code>dtag</code></p>
 <li>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
 </li>
+<li>
+<p>If no indexes are provided, deletetag will delete the tag from all contacts in the address book.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -510,7 +521,12 @@ Shorthand commands: <code>dtag</code></p>
 <li>
 <p><code>list</code><br>
 <code>deletetag 1 2 t/friends</code><br>
-Delete the freinds tag of the 1st and 2nd person in the address book.</p>
+Delete the friends tag of the 1st and 2nd person in the address book.</p>
+</li>
+<li>
+<p><code>list</code><br>
+<code>deletetag t/friends</code><br>
+Delete the friends tag from all contacts in the address book.</p>
 </li>
 </ul>
 </div>
@@ -559,11 +575,11 @@ Sorts all persons in the address book in descending order by the address field.<
 </div>
 </div>
 <div class="sect2">
-<h3 id="selecting-a-person-code-select-code-code-selecttask-code"><a class="link" href="#selecting-a-person-code-select-code-code-selecttask-code">2.11. Selecting a person : <code>select</code> <code>selecttask</code></a></h3>
+<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.11. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
 <p>Selects the person identified by the index number used in the last person listing.<br>
 Format (person): <code>select INDEX</code><br>
-Format (task): <code>selecttask INDEX</code><br>
+Format (task): <code>select task INDEX</code><br>
 Shorthand commands: <code>s</code> <code>st</code></p>
 </div>
 <div class="sidebarblock">
@@ -602,14 +618,14 @@ Selects the 2nd person in the address book.</p>
 Selects the 1st person in the results of the <code>find</code> command.</p>
 </li>
 <li>
-<p><code>listtask</code><br>
-<code>selecttask 2</code><br>
+<p><code>list task</code><br>
+<code>select task 2</code><br>
 Selects the 2nd task in the address book.</p>
 </li>
 <li>
-<p><code>findtask update</code><br>
-<code>selecttask 1</code><br>
-Selects the 1st task in the results of the <code>findtask</code> command.</p>
+<p><code>find task update</code><br>
+<code>select task 1</code><br>
+Selects the 1st task in the results of the <code>find task</code> command.</p>
 </li>
 </ul>
 </div>
@@ -644,14 +660,14 @@ Shorthand commands: <code>stc</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>listtask</code><br>
+<p><code>list task</code><br>
 <code>setcomplete 2</code><br>
 Sets the 2nd task in the address book as completed.</p>
 </li>
 <li>
-<p><code>findtask update</code><br>
+<p><code>find task update</code><br>
 <code>setcomplete 1</code><br>
-Sets the 1st task in the results of the <code>findtask</code> command as completed.</p>
+Sets the 1st task in the results of the <code>find task</code> command as completed.</p>
 </li>
 </ul>
 </div>
@@ -686,14 +702,14 @@ Shorthand commands: <code>sti</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>listtask</code><br>
+<p><code>list task</code><br>
 <code>setincomplete 2</code><br>
 Sets the 2nd task in the address book as incomplete.</p>
 </li>
 <li>
-<p><code>findtask update</code><br>
+<p><code>find task update</code><br>
 <code>setincomplete 1</code><br>
-Sets the 1st task in the results of the <code>findtask</code> command as incomplete.</p>
+Sets the 1st task in the results of the <code>find task</code> command as incomplete.</p>
 </li>
 </ul>
 </div>
@@ -732,15 +748,15 @@ Shorthand commands: <code>ast</code></p>
 <ul>
 <li>
 <p><code>list</code><br>
-<code>listtask</code><br>
+<code>list task</code><br>
 <code>assign 2 1 4 5</code><br>
 Assigns the 2nd task in the address book to the 1st, 4th and 5th contacts.</p>
 </li>
 <li>
 <p><code>list</code><br>
-<code>findtask update</code><br>
+<code>find task update</code><br>
 <code>assign 1 2</code><br>
-Assigns the 1st task in the results of the <code>findtask</code> command to the 2nd person in the address book.</p>
+Assigns the 1st task in the results of the <code>find task</code> command to the 2nd person in the address book.</p>
 </li>
 </ul>
 </div>
@@ -779,15 +795,15 @@ Shorthand commands: <code>dm</code></p>
 <ul>
 <li>
 <p><code>list</code><br>
-<code>listtask</code><br>
+<code>list task</code><br>
 <code>dismiss 2 1 4 5</code><br>
 Dismisses 1st, 4th and 5th contacts in the address book from the 2nd task.</p>
 </li>
 <li>
 <p><code>list</code><br>
-<code>findtask update</code><br>
+<code>find task update</code><br>
 <code>dismiss 1 2</code><br>
-Dismisses the 2nd person in the address book from the 1st task in the results of the <code>findtask</code> command.</p>
+Dismisses the 2nd person in the address book from the 1st task in the results of the <code>find task</code> command.</p>
 </li>
 </ul>
 </div>
@@ -1087,8 +1103,8 @@ There is no need to save manually.</p>
 e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665, b/29-02-1996 f/SOC c/www.enteryourcalendarurlhere.com t/friend t/colleague</code></p>
 </li>
 <li>
-<p><strong>Add task</strong> : <code>addtask n/NAME d/DESCRIPTION [t/DEADLINE] [p/PRIORITY]</code><br>
-e.g. <code>addtask n/Update Documentation d/Update documentations for V1.1 for CS2103T t/30/10/17 p/high</code></p>
+<p><strong>Add task</strong> : <code>add task n/NAME d/DESCRIPTION [t/DEADLINE] [p/PRIORITY]</code><br>
+e.g. <code>add task n/Update Documentation d/Update documentations for V1.1 for CS2103T t/30/10/17 p/high</code></p>
 </li>
 <li>
 <p><strong>Add tag</strong> : <code>addtag INDEX t/[TAG]</code><br>
@@ -1105,8 +1121,8 @@ e.g. <code>addtag 1 2 t/friends</code></p>
 e.g. <code>delete 3</code></p>
 </li>
 <li>
-<p><strong>Delete task</strong> : <code>deletetask INDEX</code><br>
-e.g. <code>deletetask 4</code></p>
+<p><strong>Delete task</strong> : <code>delete task INDEX</code><br>
+e.g. <code>delete task 4</code></p>
 </li>
 <li>
 <p><strong>Delete tag</strong> : <code>deletetag INDEX t/[TAG]</code><br>
@@ -1117,22 +1133,22 @@ e.g. <code>deletetag 1 2 t/friends</code></p>
 e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
-<p><strong>Edit task</strong> : <code>edittask INDEX [n/NAME] [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
-e.g. <code>edittask 2 p/veryhigh</code></p>
+<p><strong>Edit task</strong> : <code>edit task INDEX [n/NAME] [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]</code><br>
+e.g. <code>edit task 2 p/veryhigh</code></p>
 </li>
 <li>
 <p><strong>Find person</strong> : <code>find KEYWORD [MORE_KEYWORDS]</code><br>
 e.g. <code>find James Jake</code></p>
 </li>
 <li>
-<p><strong>Find task</strong> : <code>findtask KEYWORD [MORE_KEYWORDS] [p/PRIORITY]</code><br>
-e.g. <code>findtask update p/high</code></p>
+<p><strong>Find task</strong> : <code>find task KEYWORD [MORE_KEYWORDS] [p/PRIORITY]</code><br>
+e.g. <code>find task update p/high</code></p>
 </li>
 <li>
 <p><strong>List persons</strong> : <code>list</code></p>
 </li>
 <li>
-<p><strong>List tasks</strong> : <code>listtask</code></p>
+<p><strong>List tasks</strong> : <code>list task</code></p>
 </li>
 <li>
 <p><strong>Help</strong> : <code>help</code></p>
@@ -1142,8 +1158,8 @@ e.g. <code>findtask update p/high</code></p>
 e.g.<code>select 2</code></p>
 </li>
 <li>
-<p><strong>Select task</strong> : <code>selecttask INDEX</code><br>
-e.g.<code>selecttask 2</code></p>
+<p><strong>Select task</strong> : <code>select task INDEX</code><br>
+e.g.<code>select task 2</code></p>
 </li>
 <li>
 <p><strong>Set task as complete</strong> : <code>setcomplete INDEX</code><br>
@@ -1198,7 +1214,7 @@ e.g. <code>dismiss 4 1 17</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-20 17:09:16 +00:00
+Last updated 2017-10-20 17:13:47 +00:00
 </div>
 </div>
 </body>
