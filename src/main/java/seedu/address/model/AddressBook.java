@@ -321,8 +321,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         tasks.setTask(target, editedTask);
     }
 
-    //@@author jeffreygohkw
-    //// task-level operations
+    //@@author
+    //// theme-level operations
 
     /**
      * Initialises the style map by adding the key value pairs
@@ -338,7 +338,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public HashMap<String, String> getStyleMap() {
         return styleMap;
     }
-    //@@author
+
     //// util methods
 
     @Override

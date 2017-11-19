@@ -145,7 +145,7 @@ public class MainWindow extends UiPart<Region> {
         setAccelerator(decreaseSizeMenuItem, KeyCombination.valueOf("SHORTCUT+E"));
         setAccelerator(resetSizeMenuItem, KeyCombination.valueOf("SHORTCUT+R"));
     }
-
+    //@@author
     /**
      * Sets the accelerator of a MenuItem.
      * @param keyCombination the KeyCombination value of the accelerator
@@ -386,6 +386,7 @@ public class MainWindow extends UiPart<Region> {
         handleSaveAs();
     }
 
+    //@@author
     /**
      * Changes the existing theme to the input theme
      */
@@ -396,7 +397,7 @@ public class MainWindow extends UiPart<Region> {
         getRoot().getStylesheets().add(theme);
     }
 
-    //@@author
+
     @FXML
     private void handleExit() {
         raise(new ExitAppRequestEvent());
@@ -436,6 +437,7 @@ public class MainWindow extends UiPart<Region> {
     }
     //@@author
 
+    //@@author jeffreygohkw
     @Subscribe
     private void handleBrowserPanelLocateEvent(BrowserPanelLocateEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
@@ -450,7 +452,7 @@ public class MainWindow extends UiPart<Region> {
         browserPlaceholder.getChildren().add(browserPanel.getRoot());
     }
 
-    //@@author jeffreygohkw
+    //@@author
     @Subscribe
     private void handleChangeThemeEvent(ChangeThemeRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));

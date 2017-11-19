@@ -58,31 +58,6 @@ public class BrowserPanelNavigateEvent extends BaseEvent {
     }
 }
 ```
-###### \java\seedu\address\commons\events\ui\ChangeThemeRequestEvent.java
-``` java
-import seedu.address.commons.events.BaseEvent;
-
-/**
- * Represents a selection change in the Person List Panel
- */
-public class ChangeThemeRequestEvent extends BaseEvent {
-
-    private final String styleSheet;
-
-    public ChangeThemeRequestEvent(String styleSheet) {
-        this.styleSheet = styleSheet;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-    public String getStyleSheet() {
-        return styleSheet;
-    }
-}
-```
 ###### \java\seedu\address\commons\events\ui\OpenRequestEvent.java
 ``` java
 import seedu.address.commons.events.BaseEvent;
@@ -990,7 +965,7 @@ public class PrivacyLevelCommand extends Command {
     public static final String COMMAND_WORD = "privacylevel";
     public static final String COMMAND_ALIAS = "pl";
 
-    public static final String CHANGE_PRIVACY_LEVEL_SUCCESS = "Successfully change privacy level to %1$s.";
+    public static final String CHANGE_PRIVACY_LEVEL_SUCCESS = "Successfully changed privacy level to %1$s.";
     public static final String WRONG_PRIVACY_LEVEL_MESSAGE = "Privacy Level can only be 1, 2 or 3";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
@@ -1068,72 +1043,6 @@ public class SaveAsCommand extends Command {
     public CommandResult execute() {
         EventsCenter.getInstance().post(new SaveAsRequestEvent());
         return new CommandResult(SAVE_AS_COMMAND_SUCCESS);
-    }
-}
-```
-###### \java\seedu\address\logic\commands\ThemeCommand.java
-``` java
-
-import static java.util.Objects.requireNonNull;
-
-import seedu.address.commons.core.EventsCenter;
-import seedu.address.commons.events.ui.ChangeThemeRequestEvent;
-import seedu.address.logic.commands.exceptions.CommandException;
-
-/**
- *
- */
-public class ThemeCommand extends Command {
-    public static final String COMMAND_WORD = "theme";
-    public static final String COMMAND_ALIAS = "th";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Sets the theme based on the specified style.\n"
-            + "Parameters: STYLE\n"
-            + "Example: " + COMMAND_WORD + " dark";
-
-    public static final String MESSAGE_THEME_CHANGE_SUCCESS = "Theme Changed to: %1$s";
-    public static final String MESSAGE_THEME_NOT_AVAILABLE = "Theme %1$s is not available.";
-    public static final String MESSAGE_THEME_IN_USE = "Theme %1$s is currently in use.";
-
-
-    private final String style;
-
-    public ThemeCommand (String style) {
-        this.style = style;
-    }
-
-    @Override
-    public CommandResult execute() throws CommandException {
-        requireNonNull(model);
-
-        String styleSheet;
-
-        if (model.getStyleMap().containsKey(style)) {
-            styleSheet = model.getStyleMap().get(style);
-        } else {
-            throw new CommandException(String.format(MESSAGE_THEME_NOT_AVAILABLE, style));
-        }
-
-        if (model.getTheme().equals(styleSheet)) {
-            throw new CommandException(String.format(MESSAGE_THEME_IN_USE, style));
-        }
-
-        EventsCenter.getInstance().post(new ChangeThemeRequestEvent(styleSheet));
-        model.setTheme(styleSheet);
-        return new CommandResult(String.format(MESSAGE_THEME_CHANGE_SUCCESS, style));
-    }
-
-    @Override
-    public String toString() {
-        return style;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof ThemeCommand // instanceof handles nulls
-                && this.style.equals(((ThemeCommand) other).style)); // state check
     }
 }
 ```
@@ -1760,33 +1669,6 @@ public class PrivacyLevelCommandParser implements Parser<PrivacyLevelCommand> {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\ThemeCommandParser.java
-``` java
-
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import seedu.address.logic.commands.ThemeCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
-/**
- * Parses input arguments and creates a new ThemeCommand object
- */
-public class ThemeCommandParser implements Parser<ThemeCommand> {
-    /**
-     * Parses the given {@code String} of arguments in the context of the ThemeCommand
-     * and returns an ThemeCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public ThemeCommand parse(String args) throws ParseException {
-        String trimmed = args.trim();
-        if (trimmed.isEmpty() || trimmed == null) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ThemeCommand.MESSAGE_USAGE));
-        } else {
-            return new ThemeCommand(trimmed);
-        }
-    }
-}
-```
 ###### \java\seedu\address\MainApp.java
 ``` java
     @Override
@@ -1812,25 +1694,6 @@ public class ThemeCommandParser implements Parser<ThemeCommand> {
         System.exit(0);
     }
 
-```
-###### \java\seedu\address\model\AddressBook.java
-``` java
-    //// task-level operations
-
-    /**
-     * Initialises the style map by adding the key value pairs
-     * for the strings that will be input in ThemeCommand and the file name of the .css file
-     */
-    private void initialiseStyleMap() {
-        styleMap.put("dark", "DarkTheme.css");
-        styleMap.put("Dark", "DarkTheme.css");
-        styleMap.put("light", "LightTheme.css");
-        styleMap.put("Light", "LightTheme.css");
-    }
-
-    public HashMap<String, String> getStyleMap() {
-        return styleMap;
-    }
 ```
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
@@ -1908,12 +1771,6 @@ public class Location {
 
     ReadOnlyPerson getPersonAtIndexFromAddressBook(int index);
 
-    void setTheme(String theme);
-
-    String getTheme();
-
-    HashMap<String, String> getStyleMap();
-}
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
@@ -1961,23 +1818,6 @@ public class Location {
         return addressBook.getPersonAtIndexFromPersonList(index);
     }
 
-    @Override
-    public void setTheme(String theme) {
-        this.theme = theme;
-        userPrefs.setTheme(theme);
-    }
-
-    @Override
-    public String getTheme() {
-        return theme;
-    }
-
-    @Override
-    public HashMap<String, String> getStyleMap() {
-        return addressBook.getStyleMap();
-    }
-
-}
 ```
 ###### \java\seedu\address\model\person\Address.java
 ``` java
@@ -2376,25 +2216,6 @@ public class TaskAddress {
 }
 
 ```
-###### \java\seedu\address\model\UserPrefs.java
-``` java
-    private String theme;
-```
-###### \java\seedu\address\model\UserPrefs.java
-``` java
-    public String getTheme() {
-        if (theme == null) {
-            return "/view/DarkTheme.css";
-        } else {
-            return theme;
-        }
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-}
-```
 ###### \java\seedu\address\storage\XmlAdaptedPerson.java
 ``` java
     /**
@@ -2518,142 +2339,6 @@ public class TaskAddress {
         setAccelerator(decreaseSizeMenuItem, KeyCombination.valueOf("SHORTCUT+E"));
         setAccelerator(resetSizeMenuItem, KeyCombination.valueOf("SHORTCUT+R"));
     }
-
-    /**
-     * Sets the accelerator of a MenuItem.
-     * @param keyCombination the KeyCombination value of the accelerator
-     */
-    private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
-        menuItem.setAccelerator(keyCombination);
-
-        /*
-         * TODO: the code below can be removed once the bug reported here
-         * https://bugs.openjdk.java.net/browse/JDK-8131666
-         * is fixed in later version of SDK.
-         *
-         * According to the bug report, TextInputControl (TextField, TextArea) will
-         * consume function-key events. Because CommandBox contains a TextField, and
-         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-         * not work when the focus is in them because the key event is consumed by
-         * the TextInputControl(s).
-         *
-         * For now, we add following event filter to capture such key events and open
-         * help window purposely so to support accelerators even when focus is
-         * in CommandBox or ResultDisplay.
-         */
-        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
-                menuItem.getOnAction().handle(new ActionEvent());
-                event.consume();
-            }
-        });
-    }
-
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp the MainApp itself
-     */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
-    /**
-     * Is called by the main application to provide MainWindow with Storage
-     *
-     * @param s the Storage used by MainApp
-     */
-    public void setStorage(Storage s) {
-        this.storage = s;
-    }
-
-    /**
-     * Is called by the main application to  provide MainWindow with Model
-     *
-     * @param m the Model used by MainApp
-     */
-    public void setModel(Model m) {
-        this.model = m;
-    }
-
-    /**
-     * Fills up all the placeholders of this window.
-     */
-    void fillInnerParts() {
-        browserPanel = new BrowserPanel();
-        viewTaskPanel = new ViewTaskPanel();
-        viewPersonPanel = new ViewPersonPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
-
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-
-        taskListPanel = new TaskListPanel(logic.getFilteredTaskList());
-        taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
-
-        ResultDisplay resultDisplay = new ResultDisplay();
-        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
-
-        String preferredFilePath = this.prefs.getAddressBookFilePath();
-        StatusBarFooter statusBarFooter = new StatusBarFooter(preferredFilePath, logic.getFilteredPersonList().size());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
-
-        CommandBox commandBox = new CommandBox(logic);
-        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
-    }
-
-    void hide() {
-        primaryStage.hide();
-    }
-
-    private void setTitle(String appTitle) {
-        primaryStage.setTitle(appTitle);
-    }
-
-    /**
-     * Sets the given image as the icon of the main window.
-     * @param iconSource e.g. {@code "/images/help_icon.png"}
-     */
-    private void setIcon(String iconSource) {
-        FxViewUtil.setStageIcon(primaryStage, iconSource);
-    }
-
-    /**
-     * Sets the default size based on user preferences.
-     */
-    private void setWindowDefaultSize(UserPrefs prefs) {
-        primaryStage.setHeight(prefs.getGuiSettings().getWindowHeight());
-        primaryStage.setWidth(prefs.getGuiSettings().getWindowWidth());
-        if (prefs.getGuiSettings().getWindowCoordinates() != null) {
-            primaryStage.setX(prefs.getGuiSettings().getWindowCoordinates().getX());
-            primaryStage.setY(prefs.getGuiSettings().getWindowCoordinates().getY());
-        }
-    }
-
-    /**
-     * Sets the default theme based on user preferences.
-     */
-    private void setWindowDefaultTheme(UserPrefs prefs) {
-        getRoot().getStylesheets().add(prefs.getTheme());
-    }
-
-    private void setWindowMinSize() {
-        primaryStage.setMinHeight(MIN_HEIGHT);
-        primaryStage.setMinWidth(MIN_WIDTH);
-    }
-
-    public String getTheme() {
-        return getRoot().getStylesheets().get(1);
-    }
-
-    /**
-     * Returns the current size and the position of the main Window.
-     */
-    GuiSettings getCurrentGuiSetting() {
-        return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
-    }
-
 ```
 ###### \java\seedu\address\ui\MainWindow.java
 ``` java
@@ -2719,23 +2404,21 @@ public class TaskAddress {
         handleSaveAs();
     }
 
-    /**
-     * Changes the existing theme to the input theme
-     */
-    public void handleChangeTheme(String theme) {
-        if (getRoot().getStylesheets().size() > 1) {
-            getRoot().getStylesheets().remove(1);
-        }
-        getRoot().getStylesheets().add(VIEW_PATH + theme);
-    }
-
 ```
 ###### \java\seedu\address\ui\MainWindow.java
 ``` java
     @Subscribe
-    private void handleChangeThemeEvent(ChangeThemeRequestEvent event) {
+    private void handleBrowserPanelLocateEvent(BrowserPanelLocateEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        handleChangeTheme(event.getStyleSheet());
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(browserPanel.getRoot());
     }
-}
+
+    @Subscribe
+    private void handleBrowserPanelNavigateEvent(BrowserPanelNavigateEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+    }
+
 ```

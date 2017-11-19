@@ -148,36 +148,6 @@ include::../DeveloperGuide.adoc[tag=opensaveas]
 
 ---
 
-=== Enhancement Added: Changing the theme of the Address Book
-
-==== External behavior
-
----
-
-#Start of Extract [from: User Guide]#
-
-include::../UserGuide.adoc[tag=theme]
-
-#End of Extract#
-
----
-
-==== Justification
-
-Different users may have different preferences for the style and colour scheme of the address book. Instead of having all users conform to one style, by having a Theme command, each user can choose the look of the address book that fits them best.
-
-==== Implementation
-
----
-
-#Start of Extract [from: Developer Guide]#
-
-include::../DeveloperGuide.adoc[tag=theme]
-
-#End of Extract#
-
----
-
 === Other contributions
 
 * Add Menu Icons for Open, Save As, Exit and Help (Pull request https://github.com/CS2103AUG2017-W09-B2/main/pull/10[#10])

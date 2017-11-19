@@ -204,7 +204,7 @@ public class AddressBookParserTest {
         assertTrue(parser.parseCommand(PrivacyLevelCommand.COMMAND_ALIAS + " 3", DEFAULT_STATE_LOCK)
                 instanceof PrivacyLevelCommand);
     }
-
+    //@@author
     @Test
     public void parseCommandTheme() throws Exception {
         assertTrue(parser.parseCommand(ThemeCommand.COMMAND_WORD + " dark", DEFAULT_STATE_LOCK)
@@ -221,7 +221,7 @@ public class AddressBookParserTest {
                 instanceof ThemeCommand);
     }
 
-    //@@author
+
     @Test
     public void parseCommandClear() throws Exception {
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD, DEFAULT_STATE_LOCK) instanceof ClearCommand);
