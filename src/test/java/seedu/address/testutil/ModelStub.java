@@ -184,6 +184,7 @@ public class ModelStub implements Model {
         return null;
     }
 
+    //@@author
     @Override
     public void setTheme(String theme) {
         fail("This method should not be called.");
@@ -200,7 +201,7 @@ public class ModelStub implements Model {
         fail("This method should not be called.");
         return null;
     }
-    //@@author
+
 
     @Override
     public boolean getLockState() {

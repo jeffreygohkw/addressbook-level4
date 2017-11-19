@@ -165,6 +165,7 @@ public interface Model {
 
     ReadOnlyPerson getPersonAtIndexFromAddressBook(int index);
 
+    //@@author
     void setTheme(String theme);
 
     String getTheme();

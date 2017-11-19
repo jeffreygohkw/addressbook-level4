@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-//@@author jeffreygohkw
-
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.core.EventsCenter;

@@ -441,6 +441,7 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook.getPersonAtIndexFromPersonList(index);
     }
 
+    //@@author
     @Override
     public void setTheme(String theme) {
         this.theme = theme;
